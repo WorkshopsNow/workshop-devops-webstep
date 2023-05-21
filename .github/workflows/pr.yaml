@@ -52,5 +52,40 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run Unit tests
+      - name: Initialize our deploy URL
+        run: echo "PUBLIC_URL=${{vars.PUBLIC_URL}}/${{github.head_ref}}" >> $GITHUB_ENV
+
+      - name: Build our project
         run: npm run build
+
+      # - name: Rename build
+      #   run: mkdir deploy && mv build deploy/${{github.head_ref}}
+
+      # - name: Upload build
+      #   uses: actions/upload-pages-artifact@v1
+      #   with:
+      #     name: ${{github.base_ref}}
+      #     path: "./deploy"
+
+      - uses: JamesIves/github-pages-deploy-action@v4.4.1
+        with:
+          folder: ./build
+          target-folder: ${{github.base_ref}}
+          clean: false
+
+  # Deploy:
+  #   runs-on: ubuntu-22.04
+  #   needs: Build
+  #   permissions:
+  #     pages: write
+  #     id-token: write
+  #   environment:
+  #     name: "github-pages"
+  #     url: ${{ steps.deployment.outputs.page_url }}${{github.head_ref}}/
+  #   steps:
+  #     - name: Deploy to GitHub Pages
+  #       id: deployment
+  #       uses: actions/deploy-pages@v2
+  #       with:
+  #         preview: true
+  #         artifact_name: ${{github.base_ref}}
