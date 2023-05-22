@@ -45,7 +45,7 @@ jobs:
       id-token: write
     environment:
       name: "github-pages"
-      url: ${{ env.PUBLIC_URL }}/${{github.head_ref}}/
+      url: ${{ env.PUBLIC_URL }}/
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
