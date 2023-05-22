@@ -41,7 +41,7 @@ jobs:
     runs-on: ubuntu-22.04
     needs: [UnitTests, E2ETests]
     permissions:
-      pages: write
+      contents: write
       id-token: write
     steps:
       - name: Checkout repository
