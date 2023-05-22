@@ -53,9 +53,9 @@ jobs:
         run: npm install
 
       - name: Initialize our deploy URL
-        run: echo "PUBLIC_URL=${{secrets.PUBLIC_URL}}/${{github.head_ref}}" >> $GITHUB_ENV
+        run: echo "PUBLIC_URL=${{vars.PUBLIC_URL}}/${{github.head_ref}}" >> $GITHUB_ENV
 
-      - name: Run Unit tests
+      - name: Build our project
         run: npm run build
 
       - name: Rename build
@@ -75,7 +75,7 @@ jobs:
       id-token: write
     environment:
       name: "github-pages"
-      url: ${{ steps.deployment.outputs.page_url }}/${{github.head_ref}}/
+      url: ${{ steps.deployment.outputs.page_url }}${{github.head_ref}}/
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
