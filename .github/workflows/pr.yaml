@@ -53,7 +53,7 @@ jobs:
         run: npm install
 
       - name: Initialize our deploy URL
-        run: echo "PUBLIC_URL=${{env.PUBLIC_URL}}/${{github.head_ref}}" >> $GITHUB_URL
+        run: echo "PUBLIC_URL=${{env.PUBLIC_URL}}/${{github.head_ref}}" >> $GITHUB_ENV
 
       - name: Run Unit tests
         run: npm run build
