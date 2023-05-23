@@ -41,6 +41,12 @@ jobs:
   build:
     runs-on: ubuntu-22.04
     needs: [unit_tests, e2e_tests]
+    permissions: 
+      contents: write
+      id-token: write
+    environment:
+      name: staging
+      url: ${{env.PUBLIC_URL}}/
     steps:
       - name: checkout repository
         uses: actions/checkout@v3
@@ -53,5 +59,15 @@ jobs:
       - name: install dependencies
         run: npm install
       
+      - name: set deployment url
+        run: echo "PUBLIC_URL=${{vars.PUBLIC_URL}}/${{github.head_ref}}" >> $GITHUB_ENV
+      
       - name: run build script
         run: npm run build
+
+      - name: deploy site
+        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        with:
+          folder: ./build
+          target-folder: ${{github.head_ref}}
+          clean: false
